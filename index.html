@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Primavera Amarilla - Día del Amor y la Amistad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fff9e6, #fffacd, #f0f8e6);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== PÉTALOS CAYENDO ===== */
+        .falling-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ffeb3b;
+            border-radius: 50% 0 50% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        .petal:nth-child(odd) {
+            background: #fff176;
+            transform: rotate(45deg);
+        }
+
+        .petal:nth-child(even) {
+            background: #ffcc02;
+            border-radius: 50% 50% 0 50%;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== CONTROLES DE MÚSICA ===== */
+        .music-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px;
+            padding: 12px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .music-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2e7d32;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+        }
+
+        .music-button:hover {
+            transform: scale(1.2);
+            background: rgba(255, 235, 59, 0.2);
+        }
+
+        .music-button:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== HEADER PRINCIPAL ===== */
+        .header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem 1rem;
+        }
+
+        /* Ramo de flores inicial */
+        .initial-bouquet {
+            margin-bottom: 2rem;
+            animation: bouquetEntrance 3s ease-out;
+            filter: drop-shadow(0 10px 20px rgba(255, 193, 7, 0.3));
+        }
+
+        .initial-bouquet svg {
+            animation: gentleFloat 4s ease-in-out infinite;
+            max-width: 200px;
+            height: auto;
+        }
+
+        @keyframes bouquetEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #2e7d32;
+            text-shadow: 2px 2px 4px rgba(255, 235, 59, 0.3);
+            margin-bottom: 2rem;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            line-height: 1.3;
+            max-width: 90%;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 2px 2px 4px rgba(255, 235, 59, 0.3); }
+            100% { text-shadow: 2px 2px 8px rgba(255, 235, 59, 0.6); }
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #558b2f;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 1s forwards;
+            max-width: 90%;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BOTÓN FLOR PARA CARTA ===== */
+        .flower-button {
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
+            background: radial-gradient(circle, #ffeb3b, #ffc107);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .flower-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.6);
+        }
+
+        .flower-button:active {
+            transform: scale(0.95);
+        }
+
+        .flower-button::before {
+            content: '🌻';
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ===== MODAL DE CARTA ROMÁNTICA ===== */
+        .letter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+
+        .letter-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .letter-content {
+            background: linear-gradient(145deg, #fffde7, #fff8e1);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 3px solid #fff176;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .letter-modal.active .letter-content {
+            transform: scale(1);
+        }
+
+        .letter-content h2 {
+            color: #2e7d32;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .letter-content p {
+            color: #388e3c;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #558b2f;
+            transition: all 0.2s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 193, 7, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* ===== SECCIÓN FRASES ROMÁNTICAS ===== */
+        .romantic-section {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .romantic-phrase {
+            text-align: center;
+            margin: 6rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .romantic-phrase.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .romantic-phrase h3 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .romantic-phrase p {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: #558b2f;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* ===== FLORES QUE CRECEN ===== */
+        .growing-flower {
+            position: absolute;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            opacity: 0;
+            transform: scale(0);
+            animation: growFlower 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes growFlower {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(0.5) rotate(180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        /* ===== RAMO INTERACTIVO ===== */
+        .interactive-bouquet {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .bouquet {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .interactive-bouquet:hover .bouquet {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .bouquet-flowers {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .bouquet-flower {
+            position: absolute;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease;
+        }
+
+        .interactive-bouquet:hover .bouquet-flower {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===== MINI JUEGO ===== */
+        .flower-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-flower {
+            position: absolute;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            animation: floatFlower 3s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .game-flower:hover {
+            transform: scale(1.2);
+        }
+
+        .game-flower:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes floatFlower {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .score {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .game-button {
+            background: linear-gradient(145deg, #ffeb3b, #ffc107);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #2e7d32;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        .game-button:active {
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVO MÓVILES ===== */
+        @media (max-width: 768px) {
+            .music-controls {
+                top: 15px;
+                right: 15px;
+                padding: 8px 15px;
+            }
+            
+            .music-button {
+                font-size: 1.3rem;
+            }
+
+            .header {
+                padding: 1rem 0.5rem;
+            }
+
+            .initial-bouquet svg {
+                max-width: 150px;
+            }
+
+            .letter-content {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+
+            .romantic-section {
+                padding: 3rem 1rem;
+            }
+
+            .romantic-phrase {
+                margin: 4rem 0;
+            }
+
+            .interactive-bouquet {
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .flower-game {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            /* Pétalos más pequeños en móviles */
+            .petal {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                margin-bottom: 1.5rem;
+            }
+
+            .subtitle {
+                margin-bottom: 2rem;
+            }
+
+            .romantic-phrase {
+                margin: 3rem 0;
+            }
+
+            .letter-content {
+                padding: 1rem;
+            }
+
+            .interactive-bouquet {
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .music-controls {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        /* ===== ANIMACIÓN DE CURSOR ===== */
+        @keyframes fadeOut {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-20px);
+            }
+        }
+
+        /* ===== EFECTOS ADICIONALES ===== */
+        .romantic-phrase::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffeb3b, transparent);
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .romantic-phrase.visible::before {
+            opacity: 1;
+        }
+
+        /* ===== SCROLL SUAVE ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== LOADING ANIMATION ===== */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== PÉTALOS CAYENDO ===== -->
+    <div class="falling-petals" id="petalContainer"></div>
+
+    <!-- ===== CONTROLES DE MÚSICA ===== -->
+    <div class="music-controls">
+        <button class="music-button" id="musicToggle" title="Reproducir música">🎵</button>
+    </div>
+
+    <!-- ===== AUDIO DE FONDO ===== -->
+    <!-- 🎵 INSTRUCCIONES PARA AGREGAR TU MÚSICA:
+         1. Pon tu archivo MP3 en la misma carpeta que este HTML
+         2. Cambia "tu-cancion-romantica.mp3" por el nombre de tu archivo
+         3. Puedes usar varios formatos para mayor compatibilidad -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="ssvid.net--Te-Amo-y-Más.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <!-- ===== HEADER PRINCIPAL ===== -->
+    <header class="header">
+        <!-- Ramo de flores inicial -->
+        <div class="initial-bouquet">
+            <svg width="200" height="250" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tallos -->
+                <line x1="90" y1="200" x2="85" y2="120" stroke="#4caf50" stroke-width="6" opacity="0.8"/>
+                <line x1="100" y1="200" x2="95" y2="110" stroke="#4caf50" stroke-width="6" opacity="0.8"/>
+                <line x1="110" y1="200" x2="115" y2="125" stroke="#4caf50" stroke-width="6" opacity="0.8"/>
+                <line x1="80" y1="200" x2="75" y2="135" stroke="#4caf50" stroke-width="6" opacity="0.8"/>
+                <line x1="120" y1="200" x2="125" y2="140" stroke="#4caf50" stroke-width="6" opacity="0.8"/>
+                
+                <!-- Hojas -->
+                <ellipse cx="70" cy="160" rx="8" ry="15" fill="#81c784" opacity="0.8" transform="rotate(-30 70 160)"/>
+                <ellipse cx="130" cy="170" rx="8" ry="15" fill="#81c784" opacity="0.8" transform="rotate(30 130 170)"/>
+                <ellipse cx="85" cy="150" rx="6" ry="12" fill="#66bb6a" opacity="0.8" transform="rotate(-45 85 150)"/>
+                
+                <!-- Flores amarillas -->
+                <circle cx="95" cy="110" r="20" fill="#ffeb3b" opacity="0.9"/>
+                <circle cx="95" cy="110" r="15" fill="#fff176" opacity="0.8"/>
+                <circle cx="95" cy="110" r="8" fill="#ff8f00" opacity="0.9"/>
+                
+                <circle cx="75" cy="135" r="18" fill="#ffc107" opacity="0.9"/>
+                <circle cx="75" cy="135" r="13" fill="#fff59d" opacity="0.8"/>
+                <circle cx="75" cy="135" r="6" fill="#ff8f00" opacity="0.9"/>
+                
+                <circle cx="125" cy="140" r="17" fill="#ffeb3b" opacity="0.9"/>
+                <circle cx="125" cy="140" r="12" fill="#fff176" opacity="0.8"/>
+                <circle cx="125" cy="140" r="5" fill="#ff8f00" opacity="0.9"/>
+                
+                <circle cx="85" cy="120" r="16" fill="#fff176" opacity="0.9"/>
+                <circle cx="85" cy="120" r="11" fill="#fff59d" opacity="0.8"/>
+                <circle cx="85" cy="120" r="4" fill="#ff8f00" opacity="0.9"/>
+                
+                <circle cx="115" cy="125" r="15" fill="#ffc107" opacity="0.9"/>
+                <circle cx="115" cy="125" r="10" fill="#fff176" opacity="0.8"/>
+                <circle cx="115" cy="125" r="4" fill="#ff8f00" opacity="0.9"/>
+                
+                <!-- Pétalos decorativos -->
+                <ellipse cx="95" cy="90" rx="3" ry="8" fill="#ffeb3b" opacity="0.6" transform="rotate(45 95 90)"/>
+                <ellipse cx="105" cy="95" rx="3" ry="8" fill="#ffc107" opacity="0.6" transform="rotate(-30 105 95)"/>
+                <ellipse cx="85" cy="100" rx="3" ry="8" fill="#fff176" opacity="0.6" transform="rotate(60 85 100)"/>
+                
+                <!-- Lazo decorativo -->
+                <ellipse cx="100" cy="200" rx="25" ry="8" fill="#ff4081" opacity="0.8"/>
+                <ellipse cx="85" cy="205" rx="12" ry="6" fill="#e91e63" opacity="0.9"/>
+                <ellipse cx="115" cy="205" rx="12" ry="6" fill="#e91e63" opacity="0.9"/>
+            </svg>
+        </div>
+        
+        <!-- 📝 PERSONALIZA ESTOS TEXTOS: -->
+        <h1 class="main-title">Feliz Día del Amor y la Amistad,<br>una muestra de mi cariño</h1>
+        <p class="subtitle">Un jardín de sentimientos florece para ti</p>
+        <button class="flower-button" id="openLetter"></button>
+    </header>
+
+    <!-- ===== MODAL DE CARTA ROMÁNTICA ===== -->
+    <div class="letter-modal" id="letterModal">
+        <div class="letter-content">
+            <button class="close-button" id="closeLetter">&times;</button>
+            <!-- 💌 PERSONALIZA LA CARTA AQUÍ: -->
+            <h2>Mi Carta </h2>
+            <p>Querida Liz</p>
+            <p>Con esta carta quiero mostrarte mi cariño por nuestra amistad y por nuestra compañia, quiero que esto que te mando sea un signifcado nuestro,</p>
+            <p>Eres mi persona de confianza, mi persona favorita, quiero que estes a mi lado, aunque haya una diferencia de edad no tan grande yo te aprecio bastante y la verdad ya casi eso ni me importa.</p>
+            <p>Aunque no sean una flores de verdad o algo que puedas tener en tu habitacion, esta pagina estara siempre cuando quieras verla y recordar mi cariño.</p>
+            <p>quisiera que tomes esto como un momento para ambos, algo especial, pero que solos los dos sabemos, nadie mas.</p>
+            <p><strong>Tu primavera eterna 🌻</strong></p>
+        </div>
+    </div>
+
+    <!-- ===== SECCIONES DE FRASES ROMÁNTICAS ===== -->
+    <section class="romantic-section">
+        <!-- 💕 PERSONALIZA ESTAS FRASES: -->
+        <div class="romantic-phrase">
+            <h3>Eres mi sol</h3>
+            <p>Iluminas con tu sonrisa cada que te veo</p>
+        </div>
+
+        <div class="romantic-phrase">
+            <h3>Eres mi flor favorita</h3>
+            <p>la persona que ilumina los dias nublados</p>
+        </div>
+
+        <div class="romantic-phrase">
+            <h3>Eres el sonido hermoso</h3>
+            <p>con tu risa me matas de alegria</p>
+        </div>
+
+        <div class="romantic-phrase">
+            <h3>Eres mi primavera eterna</h3>
+            <p>ya que contigo no se puede estar triste</p>
+        </div>
+
+        <!-- PUEDES AGREGAR MÁS FRASES AQUÍ:
+        <div class="romantic-phrase">
+            <h3>Tu nueva frase</h3>
+            <p>Tu nueva descripción romántica</p>
+        </div>
+        -->
+    </section>
+
+    <!-- ===== RAMO INTERACTIVO ===== -->
+    <div class="interactive-bouquet" id="bouquet" title="Doble clic para jugar">
+        <div class="bouquet">💐</div>
+        <div class="bouquet-flowers">
+            <div class="bouquet-flower" style="bottom: 20px; left: -10px;">🌻</div>
+            <div class="bouquet-flower" style="bottom: 15px; left: 10px;">🌼</div>
+            <div class="bouquet-flower" style="bottom: 25px; left: 30px;">🌸</div>
+            <div class="bouquet-flower" style="bottom: 10px; left: 40px;">💛</div>
+        </div>
+    </div>
+
+    <!-- ===== MINI JUEGO DE FLORES ===== -->
+    <div class="flower-game" id="flowerGame">
+        <div class="score">Flores atrapadas: <span id="flowerScore">0</span></div>
+        <p>¡Atrapa las flores amarillas! 🌻</p>
+        <button class="game-button" onclick="closeFlowerGame()">Cerrar juego</button>
+    </div>
+
+    <script>
+        // ===== CONFIGURACIÓN INICIAL =====
+        let isMusicPlaying = false;
+        let gameActive = false;
+        let score = 0;
+
+        // ===== CREAR PÉTALOS CAYENDO =====
+        function createFallingPetals() {
+            const container = document.getElementById('petalContainer');
+            const numberOfPetals = window.innerWidth < 768 ? 10 : 15; // Menos pétalos en móvil
+
+            // Limpiar pétalos existentes
+            container.innerHTML = '';
+
+            for (let i = 0; i < numberOfPetals; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Posición y animación aleatoria
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                petal.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(petal);
+            }
+        }
+
+        // ===== MANEJO DE LA CARTA ROMÁNTICA =====
+        const openLetterBtn = document.getElementById('openLetter');
+        const closeLetterBtn = document.getElementById('closeLetter');
+        const letterModal = document.getElementById('letterModal');
+
+        openLetterBtn.addEventListener('click', () => {
+            letterModal.classList.add('active');
+            // Prevenir scroll del body cuando el modal está abierto
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeModal() {
+            letterModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeLetterBtn.addEventListener('click', closeModal);
+
+        letterModal.addEventListener('click', (e) => {
+            if (e.target === letterModal) {
+                closeModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && letterModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // ===== ANIMACIONES AL HACER SCROLL =====
+        function handleScrollAnimations() {
+            const phrases = document.querySelectorAll('.romantic-phrase');
+            const windowHeight = window.innerHeight;
+
+            phrases.forEach((phrase, index) => {
+                const elementTop = phrase.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - 100) {
+                    phrase.classList.add('visible');
+                    
+                    // Crear flores que crecen (solo una vez por elemento)
+                    if (!phrase.hasAttribute('data-flowers-created')) {
+                        createGrowingFlowers(phrase, index);
+                        phrase.setAttribute('data-flowers-created', 'true');
+                    }
+                }
+            });
+        }
+
+        function createGrowingFlowers(container, index) {
+            const flowers = ['🌻', '🌼', '🌸', '💛', '🌺'];
+            const numberOfFlowers = window.innerWidth < 768 ? 2 : 3; // Menos flores en móvil
+
+            for (let i = 0; i < numberOfFlowers; i++) {
+                const flower = document.createElement('div');
+                flower.classList.add('growing-flower');
+                flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                
+                // Posición aleatoria alrededor del contenedor
+                flower.style.left = Math.random() * 80 + 10 + '%';
+                flower.style.top = Math.random() * 60 + 20 + '%';
+                flower.style.animationDelay = (i * 0.5) + 's';
+                
+                container.appendChild(flower);
+            }
+        }
+
+        // ===== CONTROL DE MÚSICA =====
+        const musicToggle = document.getElementById('musicToggle');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        // Configuración inicial del audio
+        backgroundMusic.volume = 0.3; // Volumen suave al 30%
+
+        musicToggle.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                // Pausar música
+                backgroundMusic.pause();
+                musicToggle.textContent = '🔇';
+                musicToggle.title = 'Activar música';
+                isMusicPlaying = false;
+            } else {
+                // Reproducir música
+                backgroundMusic.play().then(() => {
+                    musicToggle.textContent = '🎵';
+                    musicToggle.title = 'Desactivar música';
+                    isMusicPlaying = true;
+                }).catch((error) => {
+                    console.log('Error al reproducir música:', error);
+                    alert('📀 No se pudo reproducir la música. Asegúrate de que el archivo MP3 esté en la carpeta correcta.');
+                });
+            }
+        });
+
+        // Pausar música cuando se minimiza la ventana (optimización móvil)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && isMusicPlaying) {
+                backgroundMusic.pause();
+            } else if (!document.hidden && isMusicPlaying) {
+                backgroundMusic.play().catch(e => console.log('Error al reanudar música:', e));
+            }
+        });
+
+        // Control de volumen con scroll (funcionalidad extra)
+        let isControlPressed = false;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Control') isControlPressed = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Control') isControlPressed = false;
+        });
+
+        document.addEventListener('wheel', (e) => {
+            if (isControlPressed && isMusicPlaying) {
+                e.preventDefault();
+                let newVolume = backgroundMusic.volume + (e.deltaY > 0 ? -0.05 : 0.05);
+                newVolume = Math.max(0, Math.min(1, newVolume));
+                backgroundMusic.volume = newVolume;
+            }
+        });
+
+        // ===== RAMO INTERACTIVO Y MINI JUEGO =====
+        const bouquet = document.getElementById('bouquet');
+        const flowerGame = document.getElementById('flowerGame');
+
+        bouquet.addEventListener('dblclick', () => {
+            if (!gameActive) {
+                startFlowerGame();
+            }
+        });
+
+        // También funciona con toque en móvil
+        let tapCount = 0;
+        let tapTimer = null;
+
+        bouquet.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            tapCount++;
+            
+            if (tapCount === 1) {
+                tapTimer = setTimeout(() => {
+                    tapCount = 0;
+                }, 300);
+            } else if (tapCount === 2) {
+                clearTimeout(tapTimer);
+                tapCount = 0;
+                if (!gameActive) {
+                    startFlowerGame();
+                }
+            }
+        });
+
+        function startFlowerGame() {
+            gameActive = true;
+            score = 0;
+            document.getElementById('flowerScore').textContent = score;
+            flowerGame.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevenir scroll durante el juego
+            
+            // Crear flores para atrapar
+            const numberOfFlowers = window.innerWidth < 768 ? 3 : 5; // Menos flores en móvil
+            for (let i = 0; i < numberOfFlowers; i++) {
+                setTimeout(() => createGameFlower(), i * 1000);
+            }
+
+            // Finalizar juego automáticamente después de 15 segundos
+            setTimeout(() => {
+                if (gameActive) {
+                    endGame();
+                }
+            }, 15000);
+        }
+
+        function createGameFlower() {
+            if (!gameActive) return;
+
+            const flower = document.createElement('div');
+            flower.classList.add('game-flower');
+            flower.textContent = '🌻';
+            
+            // Posición aleatoria dentro del juego
+            const gameRect = flowerGame.getBoundingClientRect();
+            const maxWidth = gameRect.width - 60;
+            const maxHeight = gameRect.height - 100;
+            
+            flower.style.left = Math.random() * maxWidth + 'px';
+            flower.style.top = Math.random() * maxHeight + 60 + 'px';
+            
+            // Evento click/touch
+            const catchFlower = (e) => {
+                e.preventDefault();
+                score++;
+                document.getElementById('flowerScore').textContent = score;
+                flower.remove();
+                
+                // Efecto visual al atrapar
+                createCatchEffect(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
+            };
+
+            flower.addEventListener('click', catchFlower);
+            flower.addEventListener('touchstart', catchFlower);
+            
+            flowerGame.appendChild(flower);
+            
+            // Remover la flor después de 3 segundos
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    flower.remove();
+                }
+            }, 3000);
+        }
+
+        function createCatchEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.textContent = '+1';
+            effect.style.position = 'fixed';
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            effect.style.color = '#4caf50';
+            effect.style.fontSize = '1.5rem';
+            effect.style.fontWeight = 'bold';
+            effect.style.pointerEvents = 'none';
+            effect.style.zIndex = '9999';
+            effect.style.animation = 'scoreEffect 1s ease-out forwards';
+            
+            document.body.appendChild(effect);
+            
+            setTimeout(() => {
+                if (effect.parentNode) {
+                    effect.remove();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            gameActive = false;
+            const finalScore = score;
+            
+            // Mensaje personalizado según puntaje
+            let message = '';
+            if (finalScore >= 4) {
+                message = '¡Increíble! Eres un experto cazador de flores 🌻✨';
+            } else if (finalScore >= 2) {
+                message = '¡Bien hecho! Tu amor florece hermoso 🌼💛';
+            } else {
+                message = '¡Qué dulce! Cada intento es una muestra de amor 🌸💕';
+            }
+
+            setTimeout(() => {
+                alert(`🎉 ${message}\n\n🌻 Flores atrapadas: ${finalScore}`);
+                closeFlowerGame();
+            }, 100);
+        }
+
+        function closeFlowerGame() {
+            gameActive = false;
+            flowerGame.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Limpiar flores restantes
+            const gameFlowers = document.querySelectorAll('.game-flower');
+            gameFlowers.forEach(flower => flower.remove());
+        }
+
+        // ===== EFECTOS DE CURSOR CON FLORES =====
+        let mouseTrailActive = true;
+
+        document.addEventListener('mousemove', (e) => {
+            if (mouseTrailActive && Math.random() < 0.08) { // 8% de probabilidad
+                createMouseTrailFlower(e.clientX, e.clientY);
+            }
+        });
+
+        function createMouseTrailFlower(x, y) {
+            const flower = document.createElement('div');
+            flower.style.position = 'fixed';
+            flower.style.left = x + 'px';
+            flower.style.top = y + 'px';
+            flower.style.fontSize = window.innerWidth < 768 ? '0.8rem' : '1rem';
+            flower.style.pointerEvents = 'none';
+            flower.style.zIndex = '999';
+            flower.style.opacity = '0.7';
+            flower.textContent = ['🌼', '💛', '✨'][Math.floor(Math.random() * 3)];
+            flower.style.animation = 'fadeOut 2s ease-out forwards';
+            
+            document.body.appendChild(flower);
+            
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    flower.remove();
+                }
+            }, 2000);
+        }
+
+        // ===== OPTIMIZACIONES PARA MÓVIL =====
+        
+        // Detectar dispositivo móvil
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+        }
+
+        // Reducir efectos en móvil para mejor rendimiento
+        if (isMobileDevice()) {
+            mouseTrailActive = false; // Desactivar rastro del cursor en móvil
+        }
+
+        // Optimizar scroll en móvil
+        let scrollTimeout;
+        function optimizedScrollHandler() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(handleScrollAnimations, 10);
+        }
+
+        // ===== EVENT LISTENERS PRINCIPALES =====
+        window.addEventListener('scroll', isMobileDevice() ? optimizedScrollHandler : handleScrollAnimations);
+        
+        window.addEventListener('load', () => {
+            createFallingPetals();
+            handleScrollAnimations();
+            
+            // Precargar música para mejor experiencia
+            backgroundMusic.load();
+        });
+
+        // Recrear pétalos al cambiar tamaño de ventana
+        window.addEventListener('resize', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(createFallingPetals, 200);
+        });
+
+        // ===== FUNCIONES DE ACCESIBILIDAD =====
+        
+        // Navegación por teclado
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'Enter':
+                case ' ':
+                    if (e.target === openLetterBtn || e.target === bouquet) {
+                        e.preventDefault();
+                        e.target.click();
+                    }
+                    break;
+                case 'm':
+                case 'M':
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        musicToggle.click();
+                    }
+                    break;
+            }
+        });
+
+        // Reducir movimiento para usuarios con sensibilidad
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Reducir animaciones
+            document.documentElement.style.setProperty('--animation-duration', '0.1s');
+            mouseTrailActive = false;
+        }
+
+        // ===== ESTILO DINÁMICO PARA EFECTOS =====
+        const dynamicStyle = document.createElement('style');
+        dynamicStyle.textContent = `
+            @keyframes scoreEffect {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-50px) scale(1.5);
+                }
+            }
+            
+            /* Mejoras adicionales para PWA */
+            @media (display-mode: standalone) {
+                .music-controls {
+                    top: 40px; /* Espacio para notch en PWA */
+                }
+            }
+            
+            /* Optimización para pantallas pequeñas */
+            @media (max-height: 600px) {
+                .romantic-phrase {
+                    margin: 2rem 0;
+                }
+                
+                .header {
+                    min-height: 90vh;
+                }
+            }
+        `;
+        document.head.appendChild(dynamicStyle);
+
+        // ===== MENSAJE DE BIENVENIDA (OPCIONAL) =====
+        console.log(`
+        🌻💛 ¡Bienvenido a tu página romántica! 💛🌻
+        
+        📝 Para personalizar:
+        - Cambia los textos marcados con comentarios
+        - Agrega tu archivo MP3 como "tu-cancion-romantica.mp3"
+        - Modifica colores en el CSS si lo deseas
+        
+        🎮 Controles:
+        - Clic en 🌻 = Abrir carta
+        - Doble clic en 💐 = Mini juego
+        - Ctrl + M = Toggle música
+        - Escape = Cerrar modal
+        
+        ✨ ¡Disfruta tu página de amor!
+        `);
+
+    </script>
+</body>
+
+</html>
